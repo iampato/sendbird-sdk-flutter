@@ -110,6 +110,7 @@ class SendbirdSdk {
     String userId, {
     String? nickname,
     String? accessToken,
+    String? masterToken,
     String? apiHost,
     String? wsHost,
   }) async {
@@ -117,6 +118,7 @@ class SendbirdSdk {
       userId: userId,
       nickname: nickname,
       accessToken: accessToken,
+      masterToken: masterToken,
       apiHost: apiHost,
       wsHost: wsHost,
     );

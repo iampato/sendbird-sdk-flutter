@@ -53,10 +53,10 @@ class HttpClient {
     final commonHeaders = <String, String>{
       'Content-Type': 'application/json',
       'Accept': 'application/json',
-      if (sessionKey != null)
-        'Session-Key': sessionKey
-      else if (token != null)
+      if (token != null)
         'Api-Token': token!
+      else if (sessionKey != null)
+        'Session-Key': sessionKey
     };
     if (headers.isNotEmpty) {
       commonHeaders.addAll(headers);

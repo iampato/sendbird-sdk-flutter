@@ -175,6 +175,7 @@ class SendbirdSdkInternal with WidgetsBindingObserver {
     String? nickname,
     String? accessToken,
     String? apiHost,
+    String? masterToken,
     String? wsHost,
     bool reconnect = false,
   }) async {
@@ -244,12 +245,16 @@ class SendbirdSdkInternal with WidgetsBindingObserver {
       ..apiHost = apiHostUrl
       ..wsHost = wsHostUrl;
 
-    _api.initialize(baseUrl: apiHostUrl, headers: {
-      'SB-User-Agent': _sbUserAgent,
-      'SendBird': _sendbirdHeader,
-      'User-Agent':
-          '$platform/$sdk_version/${kIsWeb ? 'oweb' : Platform.operatingSystem.toLowerCase()}',
-    });
+    _api.initialize(
+      baseUrl: apiHostUrl,
+      token: masterToken,
+      headers: {
+        'SB-User-Agent': _sbUserAgent,
+        'SendBird': _sendbirdHeader,
+        'User-Agent':
+            '$platform/$sdk_version/${kIsWeb ? 'oweb' : Platform.operatingSystem.toLowerCase()}',
+      },
+    );
 
     var params = {
       if (nickname != null && nickname != '') 'nickname': nickname,
