@@ -20,7 +20,6 @@ class PublicGroupChannelListRequest extends ApiRequest {
   }) : super(userId: userId) {
     url = 'group_channels';
     queryParams = {
-      'user_id': userId ?? state.userId,
       if (channelUrls != null && channelUrls.isNotEmpty)
         'channelUrls': channelUrls,
       'order': publicGroupChannelListOrderEnumMap[order],
