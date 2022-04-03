@@ -96,7 +96,8 @@ UserListQueryResponse<T> _$UserListQueryResponseFromJson<T extends User>(
 
 ChannelListQueryResponse<T>
     _$ChannelListQueryResponseFromJson<T extends BaseChannel>(
-        Map<String, dynamic> json) {
+  Map<String, dynamic> json,
+) {
   return ChannelListQueryResponse<T>(
     channels: (json['channels'] as List<dynamic>?)
             ?.map((e) => ChannelConverter<T>().fromJson(e as Object))

@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 
+import 'package:flutter/rendering.dart';
 import 'package:http/http.dart' as http;
 import 'package:http_parser/http_parser.dart' show MediaType;
 import 'package:sendbird_sdk/constant/error_code.dart';
@@ -48,12 +49,14 @@ class HttpClient {
   }
 
   //form commom headers
-  Map<String, String> commonHeaders() {
+  Map<String, String> commonHeaders(String customUrl) {
     final sessionKey = state?.sessionKey;
     final commonHeaders = <String, String>{
       'Content-Type': 'application/json',
       'Accept': 'application/json',
-      if (token != null)
+      if (customUrl.contains('/v3/users/') && sessionKey != null)
+        'Session-Key': sessionKey
+      else if (token != null)
         'Api-Token': token!
       else if (sessionKey != null)
         'Session-Key': sessionKey
@@ -80,13 +83,20 @@ class HttpClient {
     );
 
     final request = http.Request('GET', uri);
-    request.headers.addAll(commonHeaders());
+    request.headers.addAll(commonHeaders(uri.toString()));
     request.headers.addAll(headers ?? {});
 
-    logger.i('API request $url with headers ${request.headers}');
+    // debugPrint('*************************URL*********************************');
+    // debugPrint('API request $url with headers ${request.headers}');
+    // debugPrint('*************************URL*********************************');
 
     final res = await request.send();
+
     final result = await http.Response.fromStream(res);
+    // debugPrint('*************************RES*********************************');
+    // debugPrint(result.body);
+    // debugPrint(result.statusCode.toString());
+    // debugPrint('*************************RES*********************************');
     return _response(result);
   }
 
@@ -106,7 +116,7 @@ class HttpClient {
     );
 
     final request = http.Request('PATCH', uri);
-    request.headers.addAll(commonHeaders());
+    request.headers.addAll(commonHeaders(uri.toString()));
     request.headers.addAll(headers ?? {});
 
     final res = await request.send();
@@ -131,7 +141,7 @@ class HttpClient {
 
     final request = http.Request('POST', uri);
     request.body = jsonEncode(body);
-    request.headers.addAll(commonHeaders());
+    request.headers.addAll(commonHeaders(uri.toString()));
     request.headers.addAll(headers);
 
     final res = await request.send();
@@ -156,7 +166,7 @@ class HttpClient {
 
     final request = http.Request('PUT', uri);
     request.body = jsonEncode(body);
-    request.headers.addAll(commonHeaders());
+    request.headers.addAll(commonHeaders(uri.toString()));
     request.headers.addAll(headers);
 
     final res = await request.send();
@@ -179,7 +189,7 @@ class HttpClient {
       queryParameters: _convertQueryParams(queryParams),
     );
     final request = http.Request('DELETE', uri);
-    request.headers.addAll(commonHeaders());
+    request.headers.addAll(commonHeaders(uri.toString()));
     request.body = jsonEncode(body);
     request.headers.addAll(headers);
 
@@ -232,7 +242,7 @@ class HttpClient {
       }
     });
 
-    request.headers.addAll(commonHeaders());
+    request.headers.addAll(commonHeaders(''));
     if (headers != null && headers.isNotEmpty) request.headers.addAll(headers);
 
     String? reqId = body?['request_id'];

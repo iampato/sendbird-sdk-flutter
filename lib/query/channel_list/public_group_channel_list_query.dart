@@ -99,8 +99,8 @@ class PublicGroupChannelListQuery extends QueryBase {
       if (includeEmptyChannel) ChannelQueryIncludeOption.emptyChannel,
       if (includeMemberList) ChannelQueryIncludeOption.memberList,
       if (includeMetaData) ChannelQueryIncludeOption.metaData,
-      ChannelQueryIncludeOption.readReceipt,
-      ChannelQueryIncludeOption.deliveryReceipt,
+      // ChannelQueryIncludeOption.readReceipt,
+      // ChannelQueryIncludeOption.deliveryReceipt,
     ];
 
     final filter = GroupChannelFilter()
