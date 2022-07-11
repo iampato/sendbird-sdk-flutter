@@ -108,6 +108,10 @@ class GroupChannelListQuery extends QueryBase {
   /// deault value is `true`
   bool includeMetaData = true;
 
+  bool includeReadReceipt = true;
+
+  bool includeDeliveryReceipt = true;
+
   GroupChannelListQuery();
 
   void setUserIdsExactFilter(List<String> userIds) {
@@ -187,8 +191,8 @@ class GroupChannelListQuery extends QueryBase {
       if (includeEmptyChannel) ChannelQueryIncludeOption.emptyChannel,
       if (includeMemberList) ChannelQueryIncludeOption.memberList,
       if (includeMetaData) ChannelQueryIncludeOption.metaData,
-      ChannelQueryIncludeOption.readReceipt,
-      ChannelQueryIncludeOption.deliveryReceipt,
+      if (includeReadReceipt) ChannelQueryIncludeOption.readReceipt,
+      if (includeDeliveryReceipt) ChannelQueryIncludeOption.deliveryReceipt,
     ];
 
     final sdk = SendbirdSdk().getInternal();
